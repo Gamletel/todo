@@ -31,6 +31,32 @@ class TaskController extends Controller
 
         $task->save();
 
-        return to_route('task.index');
+        return Inertia::render('Welcome');
+    }
+
+    public function edit(int $id)
+    {
+        $task = Task::find($id);
+
+        return Inertia::render('Edit',['task'=>$task]);
+    }
+
+    public function update(int $id, Request $request)
+    {
+        $task = Task::find($id);
+        $task->title = $request->title;
+        $task->text = $request->text;
+        $task->active = $request->active;
+        $task->save();
+
+        return Inertia::render('Edit', ['task'=>$task]);
+    }
+
+    public function destroy(int $id)
+    {
+        $task = Task::find($id);
+        $task->delete();
+
+        return Inertia::render('Welcome', ['tasks'=>Task::all()]);
     }
 }

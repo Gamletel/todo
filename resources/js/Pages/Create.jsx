@@ -30,7 +30,7 @@ export default function Create() {
 
     function handleSubmit(e){
         e.preventDefault()
-        router.post('/todo/store', values)
+        router.post('/task/store', values)
     }
 
     return (
@@ -39,7 +39,7 @@ export default function Create() {
                 <div>
                     <PageTitle>Создание задачи</PageTitle>
 
-                    <form action="/todo/store" method='POST' onSubmit={handleSubmit}>
+                    <form action="/task/store" method='POST' onSubmit={handleSubmit}>
                         <Input id={'title'} text={'Название'} required defaultValue={values.title} onChange={handleChange}/>
 
                         <Textarea text={'Описание'} onEditorChange={handleEditorChange} />

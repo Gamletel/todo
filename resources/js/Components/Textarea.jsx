@@ -1,6 +1,7 @@
 import {Editor} from "@tinymce/tinymce-react";
+import {memo} from "react";
 
-export default function Textarea({text, id, onEditorChange}) {
+ const Textarea = memo(({text, id, onEditorChange, value=''}) => {
     return (
         <div className={'mb-3'}>
             <label htmlFor={id} className="form-label">{text}</label>
@@ -11,10 +12,11 @@ export default function Textarea({text, id, onEditorChange}) {
                     plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
                     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
                 }}
-                initialValue=""
+                value={value}
 
                 onEditorChange={onEditorChange}
             />
         </div>
     )
-}
+});
+export default Textarea
