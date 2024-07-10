@@ -10,7 +10,7 @@ export default function Welcome({ tasks }) {
     return (
         <>
             <Base>
-                <div>
+                <div className='d-flex flex-column gap-3'>
                     {tasks.map((task, index)=>(
                         <Task
                             key={index}

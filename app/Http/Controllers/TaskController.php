@@ -4,13 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Inertia\Inertia;
 
 class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Redis::get('tasks');
+
+        if(!$tasks){
+            $tasks = Task::all();
+            Redis::set('tasks', $tasks->toJson());
+        }else{
+            $tasks = json_decode($tasks, true);
+        }
 
         return Inertia::render('Welcome', [
             'tasks' => $tasks,
@@ -31,7 +39,9 @@ class TaskController extends Controller
 
         $task->save();
 
-        return Inertia::render('Welcome');
+        $this->updateTaskCache();
+
+        return to_route('task.index');
     }
 
     public function edit(int $id)
@@ -44,12 +54,24 @@ class TaskController extends Controller
     public function update(int $id, Request $request)
     {
         $task = Task::find($id);
-        $task->title = $request->title;
-        $task->text = $request->text;
-        $task->active = $request->active;
+
+        if ($request->has('title')) {
+            $task->title = $request->title;
+        }
+
+        if ($request->has('text')) {
+            $task->text = $request->text;
+        }
+
+        if ($request->has('active')) {
+            $task->active = $request->active;
+        }
+
         $task->save();
 
-        return Inertia::render('Edit', ['task'=>$task]);
+        $this->updateTaskCache();
+
+        return to_route('task.index');
     }
 
     public function destroy(int $id)
@@ -57,6 +79,14 @@ class TaskController extends Controller
         $task = Task::find($id);
         $task->delete();
 
+        $this->updateTaskCache();
+
         return Inertia::render('Welcome', ['tasks'=>Task::all()]);
+    }
+
+    public function updateTaskCache()
+    {
+        $tasks = Task::all();
+        Redis::set('tasks', $tasks->toJson());
     }
 }
