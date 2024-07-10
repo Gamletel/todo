@@ -7,6 +7,10 @@ export default function Header() {
                 <Link href='/todo/create' className='btn btn-link'>
                     Создать задачу
                 </Link>
+
+                <Link href={'/'} className='btn btn-link'>
+                    Все задачи
+                </Link>
             </div>
         </header>
     )

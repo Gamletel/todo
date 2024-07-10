@@ -6,9 +6,7 @@ export default function Task({id, title, text, active}) {
                     {title}
                 </div>
 
-                <div className="card-text">
-                    {text}
-                </div>
+                <div className="card-text" dangerouslySetInnerHTML={{ __html: text }}></div>
 
                 <input type="checkbox" id={`task-${id}`} className="btn-check" defaultChecked={active}/>
 

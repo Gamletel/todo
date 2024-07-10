@@ -13,7 +13,24 @@ class TaskController extends Controller
         $tasks = Task::all();
 
         return Inertia::render('Welcome', [
-            'tasks'=> $tasks,
+            'tasks' => $tasks,
         ]);
+    }
+
+    public function create()
+    {
+        return Inertia::render('Create');
+    }
+
+    public function store(Request $request)
+    {
+        $task = new Task;
+        $task->title = $request->title;
+        $task->text = $request->text;
+        $task->active = false;
+
+        $task->save();
+
+        return to_route('task.index');
     }
 }

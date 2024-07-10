@@ -2,6 +2,7 @@ import { Link, Head } from '@inertiajs/react';
 import Header from "@/Components/Header.jsx";
 import Footer from "@/Components/Footer.jsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Editor } from '@tinymce/tinymce-react';
 
 
 export default function Base({ children }) {
