@@ -11,3 +11,4 @@ Route::patch('/task/{id}/update', [TaskController::class, 'update'])->name('task
 Route::delete('/task/{id}/delete', [TaskController::class, 'destroy'])->name('task.delete');
 
 require __DIR__.'/auth.php';
+require __DIR__.'/api.php';

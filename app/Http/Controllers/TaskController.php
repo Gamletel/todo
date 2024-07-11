@@ -13,10 +13,10 @@ class TaskController extends Controller
     {
         $tasks = Redis::get('tasks');
 
-        if(!$tasks){
+        if (!$tasks) {
             $tasks = Task::all();
             Redis::set('tasks', $tasks->toJson());
-        }else{
+        } else {
             $tasks = json_decode($tasks, true);
         }
 
@@ -34,7 +34,11 @@ class TaskController extends Controller
     {
         $task = new Task;
         $task->title = $request->title;
-        $task->text = $request->text;
+
+        if ($request->text) {
+            $task->text = $request->text;
+        }
+
         $task->active = false;
 
         $task->save();
@@ -48,7 +52,7 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
 
-        return Inertia::render('Edit',['task'=>$task]);
+        return Inertia::render('Edit', ['task' => $task]);
     }
 
     public function update(int $id, Request $request)
@@ -81,7 +85,7 @@ class TaskController extends Controller
 
         $this->updateTaskCache();
 
-        return Inertia::render('Welcome', ['tasks'=>Task::all()]);
+        return Inertia::render('Welcome', ['tasks' => Task::all()]);
     }
 
     public function updateTaskCache()
