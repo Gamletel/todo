@@ -1,26 +1,30 @@
 import Base from "@/Templates/Base.jsx";
 import Task from "@/Components/Task.jsx";
 import {useEffect} from "react";
+import {TaskProvider, useTasks} from "@/Contexts/TaskContext.jsx";
 
-export default function Welcome({ tasks }) {
-    useEffect(() => {
-        console.log(tasks); // Проверяем данные
+function WelcomeContent(){
+    const {tasks} = useTasks();
+
+    useEffect(()=>{
+        console.log(tasks);
     }, [tasks]);
 
+    return(
+        <Base>
+            <div className="d-flex flex-column gap-3">
+                {tasks.map(task=>(
+                    <Task key={task.id} id={task.id}/>
+                ))}
+            </div>
+        </Base>
+    )
+}
+
+export default function Welcome({ tasks }) {
     return (
-        <>
-            <Base>
-                <div className='d-flex flex-column gap-3'>
-                    {tasks.map((task, index)=>(
-                        <Task
-                            key={index}
-                            id={task.id}
-                            title={task.title}
-                            text={task.text}
-                            active={task.active} />
-                    ))}
-                </div>
-            </Base>
-        </>
+        <TaskProvider ininitalTasks={tasks}>
+            <WelcomeContent />
+        </TaskProvider>
     );
 }

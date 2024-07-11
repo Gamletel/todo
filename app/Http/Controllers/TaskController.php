@@ -39,6 +39,10 @@ class TaskController extends Controller
             $task->text = $request->text;
         }
 
+        if ($request->deadline){
+            $task->deadline = $request->deadline;
+        }
+
         $task->active = false;
 
         $task->save();

@@ -1,8 +1,16 @@
 import {Link, router} from "@inertiajs/react";
 import {useState} from "react";
+import {useTasks} from "@/Contexts/TaskContext.jsx";
+import moment from 'moment';
+import 'moment/locale/ru';
 
-export default function Task({id, title, text, active}) {
-    const [isActive, setIsActive] = useState(active);
+moment.locale('ru');
+
+export default function Task({id}) {
+    const {tasks} = useTasks();
+    const task = tasks.find(task => task.id === id)
+
+    const [isActive, setIsActive] = useState(task.active);
 
     function handleActiveChange(e) {
         const newActive = e.target.checked;
@@ -15,20 +23,29 @@ export default function Task({id, title, text, active}) {
         router.delete(`/task/${id}/delete`)
     }
 
+    const isDeadlinePast = new Date(task.deadline) <= new Date();
+
     return (
         <div className='task card'>
             <div className="card-body">
                 <div className="card-title">
-                    {title}
+                    {task.title}
                 </div>
 
-                <div className="card-text" dangerouslySetInnerHTML={{__html: text}}></div>
+                <div className="card-text" dangerouslySetInnerHTML={{__html: task.text}}></div>
+
+                {task.deadline ? (
+                    <div className={`card-text ${isDeadlinePast ? 'text-danger' : 'text-info'}`}>
+                        Крайний срок: {moment(task.deadline).format('MMM D YYYY, H:mm')}
+                    </div>
+                ) : null}
+                <div className="card-text text-muted">Дата изменения: {moment(task.updated_at).format('MMM D YYYY, H:mm')}</div>
 
                 <input
                     type="checkbox"
                     id={`task-${id}`}
                     className="btn-check"
-                    checked={isActive}
+                    checked={task.isActive}
                     onChange={handleActiveChange}
                 />
 

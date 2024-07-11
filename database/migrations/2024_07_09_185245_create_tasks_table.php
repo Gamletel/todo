@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->longText('text')->nullable();
+            $table->timestamp('deadline')->nullable();
             $table->boolean('active');
             $table->timestamps();
         });

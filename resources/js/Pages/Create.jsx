@@ -10,6 +10,7 @@ export default function Create() {
     const [values, setValues] = useState({
         title: "Заголовок",
         text: "",
+        deadline: null,
     })
 
     function handleChange(e) {
@@ -40,9 +41,12 @@ export default function Create() {
                     <PageTitle>Создание задачи</PageTitle>
 
                     <form action="/task/store" method='POST' onSubmit={handleSubmit}>
-                        <Input id={'title'} text={'Название'} required defaultValue={values.title} onChange={handleChange}/>
+                        <Input id={'title'} text={'Название*'} required defaultValue={values.title} onChange={handleChange}/>
 
                         <Textarea text={'Описание'} onEditorChange={handleEditorChange} />
+
+
+                        <Input type='datetime-local' id='deadline' text='Крайний срок' onChange={handleChange}/>
 
                         <button type="submit" className="btn btn-primary">Создать</button>
                     </form>
