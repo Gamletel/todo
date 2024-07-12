@@ -8,4 +8,12 @@ Route::prefix('api')->group(function () {
 
         return redirect()->route('task.index');
     });
+
+//    Route::prefix('task')->group(function (){
+//       Route::post('/store', function (\Illuminate\Support\Facades\Request $request){
+//           $task = \App\Models\Task::class;
+//           $task = $request
+//           return json_decode();
+//       });
+//    });
 });
