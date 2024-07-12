@@ -43,6 +43,8 @@ export default function Edit({ task }) {
 
                     <Textarea text="Описание" onEditorChange={handleEditorChange} value={values.text} />
 
+                    <Input type='datetime-local' id='deadline' text='Крайний срок' onChange={handleChange}/>
+
                     <input type="checkbox" id='active' onChange={handleChange} className="btn-check" defaultChecked={values.active}/>
 
                     <label htmlFor='active' className="btn btn-primary mt-2">

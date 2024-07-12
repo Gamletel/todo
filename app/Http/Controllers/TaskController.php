@@ -35,11 +35,11 @@ class TaskController extends Controller
         $task = new Task;
         $task->title = $request->title;
 
-        if ($request->text) {
+        if ($request->has('text')) {
             $task->text = $request->text;
         }
 
-        if ($request->deadline){
+        if ($request->has('deadline')){
             $task->deadline = $request->deadline;
         }
 
@@ -69,6 +69,10 @@ class TaskController extends Controller
 
         if ($request->has('text')) {
             $task->text = $request->text;
+        }
+
+        if ($request->has('deadline')){
+            $task->deadline = $request->deadline;
         }
 
         if ($request->has('active')) {

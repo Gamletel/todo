@@ -45,7 +45,6 @@ export default function Create() {
 
                         <Textarea text={'Описание'} onEditorChange={handleEditorChange} />
 
-
                         <Input type='datetime-local' id='deadline' text='Крайний срок' onChange={handleChange}/>
 
                         <button type="submit" className="btn btn-primary">Создать</button>
