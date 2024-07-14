@@ -1,26 +1,22 @@
 import {Link, router} from "@inertiajs/react";
-import {useState} from "react";
-import {useTasks} from "@/Contexts/TaskContext.jsx";
+import {useEffect, useState} from "react";
 import moment from 'moment';
 import 'moment/locale/ru';
 
 moment.locale('ru');
 
-export default function Task({id}) {
-    const {tasks} = useTasks();
-    const task = tasks.find(task => task.id === id)
-
+export default function Task({task}) {
     const [isActive, setIsActive] = useState(task.active);
 
     function handleActiveChange(e) {
         const newActive = e.target.checked;
         setIsActive(newActive);
-        router.patch(`/task/${id}/update`, { active: newActive });
+        router.patch(`/task/${task.id}/update`, { active: newActive });
     }
 
     function handleSubmit(e){
         e.preventDefault()
-        router.delete(`/task/${id}/delete`)
+        router.delete(`/task/${task.id}/delete`)
     }
 
     const isDeadlinePast = new Date(task.deadline) <= new Date();
@@ -43,18 +39,18 @@ export default function Task({id}) {
 
                 <input
                     type="checkbox"
-                    id={`task-${id}`}
+                    id={`task-${task.id}`}
                     className="btn-check"
-                    checked={task.isActive}
+                    checked={isActive}
                     onChange={handleActiveChange}
                 />
 
-                <label htmlFor={`task-${id}`} className="btn btn-primary mt-2">
+                <label htmlFor={`task-${task.id}`} className="btn btn-primary mt-2">
                     {isActive ? 'Активно' : 'Сделано'}
                 </label>
 
                 <div className="d-flex gap-3 mt-3">
-                    <Link href={`/task/${id}/edit`} className='btn btn-link'>
+                    <Link href={`/task/${task.id}/edit`} className='btn btn-link'>
                         Изменить
                     </Link>
 
