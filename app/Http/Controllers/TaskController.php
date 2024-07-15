@@ -25,6 +25,17 @@ class TaskController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        $tasks = Task::all();
+        $task = Task::find($id);
+
+        return Inertia::render('TaskPage', [
+            'tasks'=>$tasks,
+            'task' => $task,
+        ]);
+    }
+
     public function create()
     {
         return Inertia::render('Create');
@@ -39,7 +50,7 @@ class TaskController extends Controller
             $task->text = $request->text;
         }
 
-        if ($request->has('deadline')){
+        if ($request->has('deadline')) {
             $task->deadline = $request->deadline;
         }
 
@@ -71,7 +82,7 @@ class TaskController extends Controller
             $task->text = $request->text;
         }
 
-        if ($request->has('deadline')){
+        if ($request->has('deadline')) {
             $task->deadline = $request->deadline;
         }
 
@@ -83,7 +94,7 @@ class TaskController extends Controller
 
         $this->updateTaskCache();
 
-        return to_route('task.index');
+        return back();
     }
 
     public function destroy(int $id)
@@ -93,7 +104,7 @@ class TaskController extends Controller
 
         $this->updateTaskCache();
 
-        return Inertia::render('Welcome', ['tasks' => Task::all()]);
+        return to_route('task.index');
     }
 
     public function updateTaskCache()
